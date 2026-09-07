@@ -3,7 +3,7 @@ Contributors: borealformstudio
 Tags: security, malware scan, audit log, login security, integrity
 Requires at least: 5.8
 Tested up to: 6.8
-Stable tag: 1.0.2
+Stable tag: 1.0.3
 Requires PHP: 7.4
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
@@ -48,6 +48,9 @@ No. An unavailable official checksum request is an explicit error finding. Plugi
 Run `wp boreal-security` to execute bounded batches until the scan completes or fails explicitly.
 
 == Changelog ==
+
+= 1.0.3 =
+* Introduce a polished security operations dashboard, clearer evidence hierarchy, and improved findings, history, audit, and settings screens.
 
 = 1.0.2 =
 * Fix the scan database schema for MariaDB and MySQL so manual scans can start.

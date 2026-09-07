@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.3
+
+- Introduced a cohesive security operations dashboard with a clearer evidence score and scan state.
+- Redesigned findings, history, audit, and settings screens for faster scanning and stronger hierarchy.
+- Added a focused Pro feature story without weakening the usefulness of the Free edition.
+
 ## 1.0.2
 
 - Replaced the reserved scan cursor column name so the scans table installs on MariaDB and MySQL.
