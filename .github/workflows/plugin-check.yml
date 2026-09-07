@@ -1,0 +1,34 @@
+name: Boreal Security Plugin Check
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  plugin-check:
+    name: WordPress Plugin Check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Build submission ZIP
+        run: node scripts/package-wordpressorg.mjs
+
+      - name: Extract submission ZIP
+        run: unzip -q .wordpressorg-dist/boreal-security.zip -d /tmp/boreal-security-pcp
+
+      - name: Run Plugin Check
+        uses: wordpress/plugin-check-action@v1
+        with:
+          build-dir: /tmp/boreal-security-pcp/boreal-security
+          strict: 'true'
