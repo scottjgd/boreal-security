@@ -36,12 +36,26 @@ class Boreal_Security_Database {
 			action varchar(100) NOT NULL, details longtext NULL,
 			PRIMARY KEY (id), KEY created_at (created_at)
 		) $charset;" );
-		update_option( 'boreal_security_db_version', self::VERSION, false );
+		if ( self::tables_exist() ) {
+			update_option( 'boreal_security_db_version', self::VERSION, false );
+		}
 	}
 
 	public static function maybe_upgrade() {
-		if ( self::VERSION !== get_option( 'boreal_security_db_version' ) ) {
+		if ( self::VERSION !== get_option( 'boreal_security_db_version' ) || ! self::tables_exist() ) {
 			self::install();
 		}
+	}
+
+	public static function tables_exist() {
+		global $wpdb;
+		foreach ( array( 'scans', 'findings', 'audit' ) as $name ) {
+			$table = self::table( $name );
+			$found = $wpdb->get_var( $wpdb->prepare( 'SHOW TABLES LIKE %s', $wpdb->esc_like( $table ) ) ); // phpcs:ignore WordPress.DB.PreparedSQL.NotPrepared
+			if ( $table !== $found ) {
+				return false;
+			}
+		}
+		return true;
 	}
 }

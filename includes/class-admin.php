@@ -24,7 +24,9 @@ class Boreal_Security_Admin {
 
 	public function ajax_start() {
 		$this->authorize_ajax();
-		wp_send_json_success( array( 'scan_id' => ( new Boreal_Security_Scanner() )->start() ) );
+		$scan_id = ( new Boreal_Security_Scanner() )->start();
+		if ( is_wp_error( $scan_id ) ) { wp_send_json_error( array( 'message' => $scan_id->get_error_message() ), 500 ); }
+		wp_send_json_success( array( 'scan_id' => $scan_id ) );
 	}
 
 	public function ajax_batch() {

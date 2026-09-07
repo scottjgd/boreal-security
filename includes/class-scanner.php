@@ -6,11 +6,14 @@ class Boreal_Security_Scanner {
 
 	public function start() {
 		global $wpdb;
-		$wpdb->insert(
+		$inserted = $wpdb->insert(
 			Boreal_Security_Database::table( 'scans' ),
 			array( 'started_at' => current_time( 'mysql', true ), 'status' => 'running', 'phase' => 'posture', 'cursor' => '{}' ),
 			array( '%s', '%s', '%s', '%s' )
 		);
+		if ( false === $inserted || ! $wpdb->insert_id ) {
+			return new WP_Error( 'scan_start_failed', __( 'The scan could not be started because its database record could not be created. Check the WordPress database and try again.', 'boreal-security' ) );
+		}
 		$id = (int) $wpdb->insert_id;
 		boreal_security_audit( 'scan_started', array( 'scan_id' => $id ) );
 		return $id;

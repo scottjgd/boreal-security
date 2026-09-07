@@ -37,8 +37,8 @@ for (const entry of entries.filter(x => /\.(?:php|js|mjs)$/.test(x))) {
 }
 const main = fs.readFileSync(path.join(root, 'boreal-security.php'), 'utf8');
 const readme = fs.readFileSync(path.join(root, 'readme.txt'), 'utf8');
-for (const header of ['Plugin Name: Boreal Security', 'Version: 1.0.0', 'Text Domain: boreal-security']) if (!main.includes(header)) throw new Error(`Missing ${header}`);
-if (!/Stable tag:\s*1\.0\.0/.test(readme)) throw new Error('Stable tag mismatch.');
+for (const header of ['Plugin Name: Boreal Security', 'Version: 1.0.1', 'Text Domain: boreal-security']) if (!main.includes(header)) throw new Error(`Missing ${header}`);
+if (!/Stable tag:\s*1\.0\.1/.test(readme)) throw new Error('Stable tag mismatch.');
 const short = readme.split('\n')[10] || '';
 if (short.length > 150) throw new Error(`Short description is ${short.length} characters.`);
 execFileSync('unzip', ['-tqq', zip], { stdio: 'inherit' });
