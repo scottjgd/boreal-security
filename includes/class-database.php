@@ -2,7 +2,7 @@
 defined( 'ABSPATH' ) || exit;
 
 class Boreal_Security_Database {
-	const VERSION = '2';
+	const VERSION = '3';
 
 	public static function table( $name ) {
 		global $wpdb;
@@ -17,7 +17,7 @@ class Boreal_Security_Database {
 			id bigint(20) unsigned NOT NULL AUTO_INCREMENT,
 			started_at datetime NOT NULL, finished_at datetime NULL,
 			status varchar(20) NOT NULL, phase varchar(32) NOT NULL,
-			cursor longtext NULL, error_text text NULL,
+			scan_cursor longtext NULL, error_text text NULL,
 			PRIMARY KEY (id), KEY status (status)
 		) $charset;" );
 		dbDelta( 'CREATE TABLE ' . self::table( 'findings' ) . " (

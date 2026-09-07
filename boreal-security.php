@@ -3,7 +3,7 @@
  * Plugin Name: Boreal Security
  * Plugin URI: https://borealform.com/boreal-security
  * Description: Evidence-first WordPress security scans, login throttling, audit history, and portable reports.
- * Version: 1.0.1
+ * Version: 1.0.2
  * Requires at least: 5.8
  * Requires PHP: 7.4
  * Author: Borealform Studio
@@ -12,7 +12,7 @@
  */
 
 defined( 'ABSPATH' ) || exit;
-define( 'BOREAL_SECURITY_VERSION', '1.0.1' );
+define( 'BOREAL_SECURITY_VERSION', '1.0.2' );
 define( 'BOREAL_SECURITY_FILE', __FILE__ );
 define( 'BOREAL_SECURITY_DIR', plugin_dir_path( __FILE__ ) );
 

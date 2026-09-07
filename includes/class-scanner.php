@@ -8,7 +8,7 @@ class Boreal_Security_Scanner {
 		global $wpdb;
 		$inserted = $wpdb->insert(
 			Boreal_Security_Database::table( 'scans' ),
-			array( 'started_at' => current_time( 'mysql', true ), 'status' => 'running', 'phase' => 'posture', 'cursor' => '{}' ),
+			array( 'started_at' => current_time( 'mysql', true ), 'status' => 'running', 'phase' => 'posture', 'scan_cursor' => '{}' ),
 			array( '%s', '%s', '%s', '%s' )
 		);
 		if ( false === $inserted || ! $wpdb->insert_id ) {
@@ -26,14 +26,14 @@ class Boreal_Security_Scanner {
 			return new WP_Error( 'invalid_scan', __( 'The scan is missing or is not running.', 'boreal-security' ) );
 		}
 		try {
-			$next = $this->{'phase_' . $scan->phase}( $scan_id, json_decode( $scan->cursor, true ) ?: array() );
+			$next = $this->{'phase_' . $scan->phase}( $scan_id, json_decode( $scan->scan_cursor, true ) ?: array() );
 			if ( 'done' === $next['phase'] ) {
-				$wpdb->update( Boreal_Security_Database::table( 'scans' ), array( 'status' => 'complete', 'phase' => 'done', 'finished_at' => current_time( 'mysql', true ), 'cursor' => '{}' ), array( 'id' => $scan_id ) );
+				$wpdb->update( Boreal_Security_Database::table( 'scans' ), array( 'status' => 'complete', 'phase' => 'done', 'finished_at' => current_time( 'mysql', true ), 'scan_cursor' => '{}' ), array( 'id' => $scan_id ) );
 				boreal_security_audit( 'scan_completed', array( 'scan_id' => $scan_id ) );
 				do_action( 'boreal_security_scan_completed', $scan_id );
 				return array( 'done' => true, 'phase' => 'done' );
 			}
-			$wpdb->update( Boreal_Security_Database::table( 'scans' ), array( 'phase' => $next['phase'], 'cursor' => wp_json_encode( $next['cursor'] ) ), array( 'id' => $scan_id ) );
+			$wpdb->update( Boreal_Security_Database::table( 'scans' ), array( 'phase' => $next['phase'], 'scan_cursor' => wp_json_encode( $next['cursor'] ) ), array( 'id' => $scan_id ) );
 			return array( 'done' => false, 'phase' => $next['phase'] );
 		} catch ( Throwable $error ) {
 			$wpdb->update( Boreal_Security_Database::table( 'scans' ), array( 'status' => 'failed', 'error_text' => $error->getMessage(), 'finished_at' => current_time( 'mysql', true ) ), array( 'id' => $scan_id ) );
