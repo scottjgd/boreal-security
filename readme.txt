@@ -1,5 +1,5 @@
 === Boreal Security ===
-Contributors: borealformstudio
+Contributors: borealformstudio, scottnanc
 Tags: security, malware scan, audit log, login security, integrity
 Requires at least: 5.8
 Tested up to: 6.8
